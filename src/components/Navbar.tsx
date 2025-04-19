@@ -22,12 +22,12 @@ const Navbar = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between">
+    <nav className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between gap-4">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
-          <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-nepal-purple to-nepal-red">
-            Nepal Threads
+          <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-nepal-purple via-nepal-red to-nepal-gold">
+            Vastra
           </span>
         </Link>
 
@@ -49,13 +49,13 @@ const Navbar = () => {
               </Link>
             </div>
 
-            <div className="flex w-1/3">
+            <div className="flex w-96 max-w-sm">
               <div className="relative w-full">
                 <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   type="search"
                   placeholder="Search for products..."
-                  className="w-full rounded-md pl-8"
+                  className="w-full rounded-md pl-8 bg-white/5"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
