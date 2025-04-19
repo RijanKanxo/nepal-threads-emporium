@@ -1,8 +1,11 @@
 
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { Heart } from "lucide-react";
+import { Heart, Plus, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { motion } from "framer-motion";
 
 // Mock product data
 const products = [
@@ -78,50 +81,115 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const { toast } = useToast();
+  const [isHovered, setIsHovered] = useState(false);
+  
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Animation and toast notification
+    toast({
+      title: "Added to cart!",
+      description: `${product.name} has been added to your cart.`,
+    });
+  };
+
   return (
-    <Card className="product-card group">
-      <CardContent className="p-0">
-        <div className="relative">
-          <Link to={`/product/${product.id}`}>
-            <img
-              src={product.image}
-              alt={product.name}
-              className="product-image"
-            />
-          </Link>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-2 top-2 h-8 w-8 rounded-full bg-white/80 opacity-70 backdrop-blur-sm transition-opacity group-hover:opacity-100 hover:bg-white/80"
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      whileHover={{ scale: 1.03 }}
+    >
+      <Card className="product-card group">
+        <CardContent className="p-0">
+          <div 
+            className="relative overflow-hidden" 
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
-            <Heart className="h-4 w-4" />
-            <span className="sr-only">Add to favorites</span>
-          </Button>
-        </div>
-        <div className="p-4">
-          <div className="flex items-start justify-between">
-            <div>
-              <Link to={`/product/${product.id}`}>
-                <h3 className="font-medium leading-none group-hover:text-primary">{product.name}</h3>
-              </Link>
-              <p className="text-sm text-muted-foreground mt-1">
-                <Link to={`/seller/${product.seller.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-primary">
-                  {product.seller}
-                </Link>
-              </p>
-            </div>
-            <p className="font-bold">NPR {product.price}</p>
-          </div>
-          <div className="mt-2">
-            <Link to={`/category/${product.category.toLowerCase()}`} className="inline-block">
-              <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground">
-                {product.category}
-              </span>
+            <Link to={`/product/${product.id}`}>
+              <img
+                src={product.image}
+                alt={product.name}
+                className="product-image transition-all duration-500 hover:scale-110"
+              />
             </Link>
+            
+            {/* Favorite button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8 rounded-full bg-white/80 opacity-70 backdrop-blur-sm transition-opacity group-hover:opacity-100 hover:bg-white/80"
+            >
+              <Heart className="h-4 w-4" />
+              <span className="sr-only">Add to favorites</span>
+            </Button>
+            
+            {/* Add to cart button with animation */}
+            <motion.div
+              className="absolute bottom-4 right-4"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ 
+                opacity: isHovered ? 1 : 0,
+                scale: isHovered ? 1 : 0 
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              <Button
+                variant="default"
+                size="icon"
+                className="h-10 w-10 rounded-full shadow-lg"
+                onClick={handleAddToCart}
+              >
+                <Plus className="h-5 w-5" />
+              </Button>
+            </motion.div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+          <div className="p-4">
+            <div className="flex items-start justify-between">
+              <div>
+                <Link to={`/product/${product.id}`}>
+                  <h3 className="font-medium leading-none group-hover:text-primary">{product.name}</h3>
+                </Link>
+                <p className="text-sm text-muted-foreground mt-1">
+                  <Link to={`/seller/${product.seller.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-primary">
+                    {product.seller}
+                  </Link>
+                </p>
+              </div>
+              <p className="font-bold">NPR {product.price}</p>
+            </div>
+            <div className="mt-2">
+              <Link to={`/category/${product.category.toLowerCase()}`} className="inline-block">
+                <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground">
+                  {product.category}
+                </span>
+              </Link>
+            </div>
+            
+            {/* Buy now button */}
+            <motion.div 
+              className="mt-4"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ 
+                opacity: isHovered ? 1 : 0,
+                height: isHovered ? 'auto' : 0 
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              <Link to={`/product/${product.id}`}>
+                <Button variant="secondary" className="w-full flex items-center justify-center gap-2">
+                  <ShoppingBag className="h-4 w-4" />
+                  Buy Now
+                </Button>
+              </Link>
+            </motion.div>
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 };
 
