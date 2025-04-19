@@ -1,4 +1,3 @@
-
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -28,15 +27,13 @@ const Hero = () => {
   return (
     <div className="relative overflow-hidden bg-background py-10 md:py-16">
       <div className="container px-4 md:px-6">
-        {/* Animated Logo */}
         <div className="mb-8 flex flex-col items-center justify-center">
-          <div className="animate-bounce overflow-hidden rounded-full shadow-lg p-2 bg-white mb-4">
+          <div className="overflow-hidden rounded-full shadow-lg p-2 bg-white/5 backdrop-blur-sm mb-4 transition-transform duration-500 hover:scale-105">
             <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="50" cy="50" r="50" fill="url(#gradient)" />
               <path 
                 d="M30 40 L30 70 L40 70 L40 60 L60 60 L60 70 L70 70 L70 40 L60 40 L60 50 L40 50 L40 40 Z" 
-                fill="white" 
-                className="animate-pulse"
+                fill="white"
               />
               <defs>
                 <linearGradient id="gradient" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
@@ -47,13 +44,10 @@ const Hero = () => {
             </svg>
           </div>
           <div className="relative">
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-center mb-2">
-              <span className="inline-block transform transition-transform hover:scale-110 duration-300">व</span>
-              <span className="inline-block transform transition-transform hover:scale-110 duration-300">स्</span>
-              <span className="inline-block transform transition-transform hover:scale-110 duration-300">त्</span>
-              <span className="inline-block transform transition-transform hover:scale-110 duration-300">र</span>
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-center mb-2 text-gradient">
+              Vastra
             </h1>
-            <p className="text-sm text-gray-500 text-center">Nepal's Best Fashion Marketplace</p>
+            <p className="text-sm text-gray-400 text-center">Nepal's Best Fashion Marketplace</p>
           </div>
         </div>
 
@@ -84,12 +78,9 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Parallax Ghibli-style Animation */}
           <div ref={parallaxRef} className="relative h-[400px] w-full overflow-hidden rounded-xl border shadow-xl">
-            {/* Sky layer */}
             <div className="parallax-layer absolute inset-0 bg-gradient-to-b from-blue-300 to-blue-200"></div>
             
-            {/* Mountain layer */}
             <div className="parallax-layer absolute bottom-0 left-0 w-full h-64">
               <svg viewBox="0 0 1440 320" className="absolute bottom-0 w-full">
                 <path fill="#9b87f5" fill-opacity="0.5" d="M0,256L48,240C96,224,192,192,288,181.3C384,171,480,181,576,186.7C672,192,768,192,864,170.7C960,149,1056,107,1152,85.3C1248,64,1344,64,1392,64L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
@@ -99,7 +90,6 @@ const Hero = () => {
               </svg>
             </div>
             
-            {/* Temple layer */}
             <div className="parallax-layer absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 h-48">
               <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
                 <rect x="30" y="60" width="40" height="40" fill="#5a3b2c" />
@@ -110,7 +100,6 @@ const Hero = () => {
               </svg>
             </div>
             
-            {/* River layer */}
             <div className="parallax-layer absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-blue-600 to-blue-400 opacity-70">
               <div className="absolute inset-0 animate-pulse">
                 <svg viewBox="0 0 1440 320" className="absolute bottom-0 w-full">
@@ -119,28 +108,23 @@ const Hero = () => {
               </div>
             </div>
             
-            {/* Character with Nepali clothes */}
             <div className="parallax-layer absolute bottom-28 right-12 w-20 h-32 animate-bounce" style={{animationDuration: '3s'}}>
               <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                {/* Body - Daura Surwal */}
-                <ellipse cx="50" cy="45" rx="22" ry="25" fill="#f8c291" /> {/* Head */}
-                <rect x="40" y="70" width="20" height="60" fill="#e94057" /> {/* Daura (upper dress) */}
-                <rect x="40" y="130" width="20" height="30" fill="#fff" /> {/* Surwal (pants) */}
+                <ellipse cx="50" cy="45" rx="22" ry="25" fill="#f8c291" />
+                <rect x="40" y="70" width="20" height="60" fill="#e94057" />
+                <rect x="40" y="130" width="20" height="30" fill="#fff" />
                 
-                {/* Face */}
-                <circle cx="42" cy="40" r="3" fill="#000" /> {/* Left eye */}
-                <circle cx="58" cy="40" r="3" fill="#000" /> {/* Right eye */}
-                <path d="M45,50 Q50,55 55,50" stroke="#000" strokeWidth="2" fill="none" /> {/* Smile */}
+                <circle cx="42" cy="40" r="3" fill="#000" />
+                <circle cx="58" cy="40" r="3" fill="#000" />
+                <path d="M45,50 Q50,55 55,50" stroke="#000" strokeWidth="2" fill="none" />
                 
-                {/* Dhaka Topi (traditional hat) */}
                 <rect x="35" y="15" width="30" height="10" fill="#9b87f5" rx="2" />
                 <rect x="37" y="10" width="26" height="5" fill="#f97316" />
                 
-                {/* Arms with traditional bracelets */}
-                <rect x="25" y="75" width="15" height="5" fill="#e94057" /> {/* Left arm */}
-                <rect x="60" y="75" width="15" height="5" fill="#e94057" /> {/* Right arm */}
-                <circle cx="25" cy="77.5" r="3" fill="#ffd700" /> {/* Left bracelet */}
-                <circle cx="75" cy="77.5" r="3" fill="#ffd700" /> {/* Right bracelet */}
+                <rect x="25" y="75" width="15" height="5" fill="#e94057" />
+                <rect x="60" y="75" width="15" height="5" fill="#e94057" />
+                <circle cx="25" cy="77.5" r="3" fill="#ffd700" />
+                <circle cx="75" cy="77.5" r="3" fill="#ffd700" />
               </svg>
             </div>
           </div>

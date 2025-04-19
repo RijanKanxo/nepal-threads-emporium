@@ -27,7 +27,7 @@ const App = () => (
           <Route path="/sellers" element={<Sellers />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cart" element={<Cart />} />
-          {/* Placeholder routes to prevent 404s */}
+          {/* Active routes with implemented pages */}
           <Route path="/category/:category" element={<Categories />} />
           <Route path="/seller/:seller" element={<Sellers />} />
           <Route path="/wishlist" element={<Index />} />

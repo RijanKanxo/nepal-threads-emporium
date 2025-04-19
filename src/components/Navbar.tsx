@@ -34,7 +34,7 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         {!isMobile && (
           <>
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-6 min-w-[300px]">
               <Link to="/categories" className="text-sm font-medium transition-colors hover:text-primary">
                 Categories
               </Link>
