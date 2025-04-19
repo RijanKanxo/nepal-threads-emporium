@@ -12,7 +12,7 @@ const Footer = () => {
           <div className="flex flex-col">
             <Link to="/" className="inline-block">
               <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-nepal-purple to-nepal-red">
-                Nepal Threads
+                Vastra
               </span>
             </Link>
             <p className="mt-4 text-sm text-muted-foreground md:max-w-xs">
@@ -103,7 +103,7 @@ const Footer = () => {
         <div className="mt-12 border-t pt-8">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <p className="text-center text-sm text-muted-foreground md:text-left">
-              &copy; {new Date().getFullYear()} Nepal Threads Emporium. All rights reserved.
+              &copy; {new Date().getFullYear()} Vastra. All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center gap-4 md:justify-end">
               <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground">

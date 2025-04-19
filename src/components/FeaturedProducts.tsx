@@ -1,11 +1,12 @@
 
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Heart, Plus, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 // Mock product data
 const products = [
@@ -44,8 +45,50 @@ const products = [
 ];
 
 const FeaturedProducts = () => {
+  const [expandedProduct, setExpandedProduct] = useState<number | null>(null);
+  
+  const handleProductClick = (productId: number) => {
+    setExpandedProduct(productId);
+    // Scroll to the product
+    setTimeout(() => {
+      const element = document.getElementById(`product-${productId}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 100);
+  };
+
+  const handleBackdropClick = () => {
+    setExpandedProduct(null);
+  };
+
   return (
-    <section className="py-12">
+    <section className="py-12 relative">
+      <AnimatePresence>
+        {expandedProduct !== null && (
+          <motion.div 
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={handleBackdropClick}
+          >
+            <motion.div 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-4xl"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {expandedProduct && <ExpandedProductCard 
+                product={products.find(p => p.id === expandedProduct)!} 
+                onClose={() => setExpandedProduct(null)} 
+              />}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row">
           <div>
@@ -61,7 +104,12 @@ const FeaturedProducts = () => {
         </div>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-8">
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard 
+              key={product.id} 
+              product={product} 
+              onClick={() => handleProductClick(product.id)}
+              id={`product-${product.id}`}
+            />
           ))}
         </div>
       </div>
@@ -78,11 +126,14 @@ interface ProductCardProps {
     seller: string;
     category: string;
   };
+  onClick: () => void;
+  id: string;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, onClick, id }: ProductCardProps) => {
   const { toast } = useToast();
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
   
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -95,33 +146,48 @@ const ProductCard = ({ product }: ProductCardProps) => {
     });
   };
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onClick();
+  };
+
   return (
     <motion.div
+      id={id}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      whileHover={{ scale: 1.03 }}
+      whileHover={{ 
+        scale: 1.03,
+        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
+      }}
     >
-      <Card className="product-card group">
+      <Card 
+        className="product-card group cursor-pointer bg-opacity-90 backdrop-blur-sm"
+        onClick={handleCardClick}
+      >
         <CardContent className="p-0">
           <div 
             className="relative overflow-hidden" 
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            <Link to={`/product/${product.id}`}>
-              <img
+            <div className="overflow-hidden">
+              <motion.img
                 src={product.image}
                 alt={product.name}
-                className="product-image transition-all duration-500 hover:scale-110"
+                className="product-image"
+                whileHover={{ scale: 1.15 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
               />
-            </Link>
+            </div>
             
             {/* Favorite button */}
             <Button
               variant="ghost"
               size="icon"
               className="absolute right-2 top-2 h-8 w-8 rounded-full bg-white/80 opacity-70 backdrop-blur-sm transition-opacity group-hover:opacity-100 hover:bg-white/80"
+              onClick={(e) => e.stopPropagation()}
             >
               <Heart className="h-4 w-4" />
               <span className="sr-only">Add to favorites</span>
@@ -150,11 +216,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <div className="p-4">
             <div className="flex items-start justify-between">
               <div>
-                <Link to={`/product/${product.id}`}>
-                  <h3 className="font-medium leading-none group-hover:text-primary">{product.name}</h3>
-                </Link>
+                <h3 className="font-medium leading-none group-hover:text-primary">{product.name}</h3>
                 <p className="text-sm text-muted-foreground mt-1">
-                  <Link to={`/seller/${product.seller.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-primary">
+                  <Link to={`/seller/${product.seller.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-primary" onClick={(e) => e.stopPropagation()}>
                     {product.seller}
                   </Link>
                 </p>
@@ -162,7 +226,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
               <p className="font-bold">NPR {product.price}</p>
             </div>
             <div className="mt-2">
-              <Link to={`/category/${product.category.toLowerCase()}`} className="inline-block">
+              <Link 
+                to={`/category/${product.category.toLowerCase()}`} 
+                className="inline-block"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground">
                   {product.category}
                 </span>
@@ -179,7 +247,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
               }}
               transition={{ duration: 0.2 }}
             >
-              <Link to={`/product/${product.id}`}>
+              <Link 
+                to={`/product/${product.id}`}
+                onClick={(e) => e.stopPropagation()}
+              >
                 <Button variant="secondary" className="w-full flex items-center justify-center gap-2">
                   <ShoppingBag className="h-4 w-4" />
                   Buy Now
@@ -189,6 +260,99 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </div>
         </CardContent>
       </Card>
+    </motion.div>
+  );
+};
+
+interface ExpandedProductCardProps {
+  product: {
+    id: number;
+    name: string;
+    price: number;
+    image: string;
+    seller: string;
+    category: string;
+  };
+  onClose: () => void;
+}
+
+const ExpandedProductCard = ({ product, onClose }: ExpandedProductCardProps) => {
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  
+  const handleAddToCart = () => {
+    toast({
+      title: "Added to cart!",
+      description: `${product.name} has been added to your cart.`,
+    });
+    onClose();
+  };
+
+  const handleBuyNow = () => {
+    navigate(`/product/${product.id}`);
+  };
+
+  return (
+    <motion.div
+      className="bg-card rounded-xl overflow-hidden shadow-2xl"
+      layoutId={`expanded-product-${product.id}`}
+    >
+      <div className="grid md:grid-cols-2 gap-0">
+        <div className="relative h-full">
+          <img 
+            src={product.image} 
+            alt={product.name} 
+            className="w-full h-full object-cover"
+          />
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="absolute top-4 right-4 h-10 w-10 rounded-full bg-black/50 text-white"
+            onClick={onClose}
+          >
+            ×
+          </Button>
+        </div>
+        <div className="p-8 flex flex-col">
+          <div className="mb-4">
+            <Link 
+              to={`/category/${product.category.toLowerCase()}`}
+              className="inline-block"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground">
+                {product.category}
+              </span>
+            </Link>
+          </div>
+          
+          <h2 className="text-2xl font-bold mb-4">{product.name}</h2>
+          <p className="text-muted-foreground mb-2">
+            By <Link to={`/seller/${product.seller.toLowerCase().replace(/\s+/g, '-')}`} className="text-primary hover:underline">{product.seller}</Link>
+          </p>
+          
+          <div className="mt-auto">
+            <p className="text-3xl font-bold mb-6">NPR {product.price}</p>
+            
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <Button 
+                variant="default" 
+                className="w-full"
+                onClick={handleAddToCart}
+              >
+                Add to Cart
+              </Button>
+              <Button 
+                variant="secondary" 
+                className="w-full"
+                onClick={handleBuyNow}
+              >
+                Buy Now
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
     </motion.div>
   );
 };

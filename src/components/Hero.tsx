@@ -1,3 +1,4 @@
+
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -28,7 +29,7 @@ const Hero = () => {
     <div className="relative overflow-hidden bg-background py-10 md:py-16">
       <div className="container px-4 md:px-6">
         <div className="mb-8 flex flex-col items-center justify-center">
-          <div className="overflow-hidden rounded-full shadow-lg p-2 bg-white/5 backdrop-blur-sm mb-4 transition-transform duration-500 hover:scale-105">
+          <div className="overflow-hidden rounded-full shadow-lg p-2 bg-white/5 backdrop-blur-sm mb-4">
             <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
               <circle cx="50" cy="50" r="50" fill="url(#gradient)" />
               <path 
@@ -83,10 +84,10 @@ const Hero = () => {
             
             <div className="parallax-layer absolute bottom-0 left-0 w-full h-64">
               <svg viewBox="0 0 1440 320" className="absolute bottom-0 w-full">
-                <path fill="#9b87f5" fill-opacity="0.5" d="M0,256L48,240C96,224,192,192,288,181.3C384,171,480,181,576,186.7C672,192,768,192,864,170.7C960,149,1056,107,1152,85.3C1248,64,1344,64,1392,64L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                <path fill="#9b87f5" fillOpacity="0.5" d="M0,256L48,240C96,224,192,192,288,181.3C384,171,480,181,576,186.7C672,192,768,192,864,170.7C960,149,1056,107,1152,85.3C1248,64,1344,64,1392,64L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
               </svg>
               <svg viewBox="0 0 1440 320" className="absolute bottom-0 w-full">
-                <path fill="#e94057" fill-opacity="0.3" d="M0,128L48,138.7C96,149,192,171,288,176C384,181,480,171,576,144C672,117,768,75,864,64C960,53,1056,75,1152,112C1248,149,1344,203,1392,229.3L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                <path fill="#e94057" fillOpacity="0.3" d="M0,128L48,138.7C96,149,192,171,288,176C384,181,480,171,576,144C672,117,768,75,864,64C960,53,1056,75,1152,112C1248,149,1344,203,1392,229.3L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
               </svg>
             </div>
             
@@ -103,12 +104,12 @@ const Hero = () => {
             <div className="parallax-layer absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-blue-600 to-blue-400 opacity-70">
               <div className="absolute inset-0 animate-pulse">
                 <svg viewBox="0 0 1440 320" className="absolute bottom-0 w-full">
-                  <path fill="#fff" fill-opacity="0.3" d="M0,128L48,144C96,160,192,192,288,202.7C384,213,480,203,576,165.3C672,128,768,64,864,53.3C960,43,1056,85,1152,122.7C1248,160,1344,192,1392,208L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                  <path fill="#fff" fillOpacity="0.3" d="M0,128L48,144C96,160,192,192,288,202.7C384,213,480,203,576,165.3C672,128,768,64,864,53.3C960,43,1056,85,1152,122.7C1248,160,1344,192,1392,208L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
                 </svg>
               </div>
             </div>
             
-            <div className="parallax-layer absolute bottom-28 right-12 w-20 h-32 animate-bounce" style={{animationDuration: '3s'}}>
+            <div className="parallax-layer absolute bottom-28 right-12 w-20 h-32" style={{animationDuration: '3s'}}>
               <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
                 <ellipse cx="50" cy="45" rx="22" ry="25" fill="#f8c291" />
                 <rect x="40" y="70" width="20" height="60" fill="#e94057" />
